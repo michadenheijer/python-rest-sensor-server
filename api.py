@@ -3,7 +3,7 @@ from flask_restful import Api, Resource, reqparse
 
 try:
     from tsl2561 import TSL2561
-    tsl = TSL2561(debug=True)
+    tsl2561 = TSL2561(debug=True)
 except ImportError:
     print("Cannot import lux_sensor")
 except Exception as error:
@@ -11,8 +11,8 @@ except Exception as error:
 
 try:
     import Adafruit_MCP9808.MCP9808 as MCP9808
-    sensor = MCP9808.MCP9808()
-    sensor.begin()
+    mcp9808 = MCP9808.MCP9808()
+    mcp9808.begin()
 except ImportError:
     print("Cannot import temp_sensor")
 except Exception as error:
@@ -25,10 +25,35 @@ api = Api(app)
 
 class cpu(Resource):
     def get(self):
-        tempFile = open('/sys/devices/virtual/thermal/thermal_zone0/temp').read()
-        temp = int(float(tempFile)/1000)
-        return temp, 200
+        try:
+            tempFile = open('/sys/devices/virtual/thermal/thermal_zone0/temp').read()
+            temp = int(float(tempFile)/100)/10
+            return temp, 200
+        except Exception as error:
+            return "Server error", 500
+
+class temp(Resource):
+    def get(self):
+        try:
+            temp = mcp9808.readTempC()
+            return temp, 200
+        except Exception as error:
+            return "Server error", 500
+
+class lux(Resource):
+    def get(self):
+        try:
+            lux = tsl2561.lux()
+            return lux, 200
+        except Exception as error:
+            return "Server error", 500
+
+@app.errorhandler(404)
+def does_not_exist(Resource):
+    return "Does not exist\n", 404
 
 api.add_resource(cpu, "/cpu")
+api.add_resource(temp, "/temp")
+api.add_resource(lux, "/lux")
 
-app.run(debug=True, host='0.0.0.0')
+app.run(host='0.0.0.0')

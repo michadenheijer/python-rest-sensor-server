@@ -1,0 +1,11 @@
+[Unit]
+Description=The server that checks the temperature and sends to a rest server
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/python3 /home/pi/monitor/api.py
+
+[Install]
+WantedBy=multi-user.target
