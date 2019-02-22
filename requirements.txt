@@ -1,3 +1,3 @@
 flask-restful
 -e git://github.com/adafruit/Adafruit_Python_MCP9808.git#egg=Adafruit_Python_MCP9808
-tsl2561
+-e git://github.com/maxlklaxl/python-tsl2591.git#egg=tsl2591

@@ -2,8 +2,8 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse
 
 try:
-    from tsl2561 import TSL2561
-    tsl2561 = TSL2561(debug=True)
+    import tsl2591
+    tsl2591 = tsl2591.Tsl2591()
 except ImportError:
     print("Cannot import lux_sensor")
 except Exception as error:
@@ -11,7 +11,7 @@ except Exception as error:
 
 try:
     import Adafruit_MCP9808.MCP9808 as MCP9808
-    mcp9808 = MCP9808.MCP9808()
+    mcp9808 = MCP9808.MCP9808(busnum=0)
     mcp9808.begin()
 except ImportError:
     print("Cannot import temp_sensor")
@@ -30,20 +30,23 @@ class cpu(Resource):
             temp = int(float(tempFile)/100)/10
             return temp, 200
         except Exception as error:
+            print(error)
             return "Server error", 500
 
 class temp(Resource):
     def get(self):
         try:
-            temp = mcp9808.readTempC()
+            temp = int(mcp9808.readTempC()*10)/10
             return temp, 200
         except Exception as error:
+            print(error)
             return "Server error", 500
 
 class lux(Resource):
     def get(self):
         try:
-            lux = tsl2561.lux()
+            full, ir = tsl2591.get_full_luminosity()
+            lux = int(tsl2591.calculate_lux(full, ir)*10)/10
             return lux, 200
         except Exception as error:
             return "Server error", 500
