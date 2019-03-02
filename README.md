@@ -1,11 +1,12 @@
 # python-rest-sensor-server
-This is my personal project that allows me to access sensors on a Orange Pi Zero using a REST api.
+This is my personal project that allows me to access sensors on a Orange Pi Zero and a Raspberry Pi Zero using a REST api.
 
 ## Sensors
 I use the following sensors.
-- Adafruit MCP9808
-- Adafruit TSL2591
-- Orange Pi Zero CPU temp
+- Adafruit MCP9808 (temperature)
+- Adafruit TSL2591 (light level)
+- Sparkfun SI7021 (temperature and humidity)
+- CPU temp (temperature)
 
 ## Installation
 Firstly, clone my project.
@@ -27,7 +28,6 @@ Install dependencies
 ```
 pip3 install -r requirements.txt
 ```
-It might give errors, most often you can ignore those.
 
 Then start the server.
 ```
@@ -39,3 +39,5 @@ Your REST-server is running and you can get information by using:
 curl http://localhost:5000/cpu
 curl http://localhost:5000/temp
 curl http://localhost:5000/lux
+curl http://localhost:5000/humidity
+```
