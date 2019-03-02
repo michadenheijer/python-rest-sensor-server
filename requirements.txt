@@ -1,4 +1,2 @@
 flask-restful
 waitress
--e git://github.com/adafruit/Adafruit_Python_MCP9808.git#egg=Adafruit_Python_MCP9808
--e git://github.com/maxlklaxl/python-tsl2591.git#egg=tsl2591

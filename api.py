@@ -128,4 +128,4 @@ api.add_resource(humidity, "/humidity")
 api.add_resource(temp, "/temp")
 api.add_resource(lux, "/lux")
 
-serve(app, host='0.0.0.0', port=5000)
+serve(app, host='0.0.0.0', port=5001)
