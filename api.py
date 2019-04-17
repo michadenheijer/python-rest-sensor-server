@@ -11,7 +11,7 @@ try:
     elif str(open('/sys/firmware/devicetree/base/model').read()) == 'Raspberry Pi Zero W Rev 1.1\x00':
         device = 'RaspberryPiZero'
     else:
-        print('Not yet support for this device')
+        print('Not support for this device yet')
         exit()
 except Exception as error:
     print(error)
